@@ -1,14 +1,13 @@
 # Exercices de troubleshooting DHCP 2
 
 - **Auteur(s)** : Charlier Thomas  
-- **Date** : 08/11/2025
-- *Remarque : la mise en page de ce fichier Markdown (.md) a été réalisée avec l'aide de ChatGPT, car je n'avais pas de connaissances préalables sur les fichiers .md.*
-
+- **Date** : 25/11/2025
+*GNS3 n'ayant pas acces a internet, je considérerais qu'une trace whireshark vers le router est un acces internet réussi*
 ---
 
 ## 1. Bug Report
 
-Je travaille sur un réseau complet contenant un serveur DHCP utilisant dhcpd, un serveur DNS, ainsi que deux clients DHCP : Direction et Atelier.  
+Je travaille sur un réseau complet contenant un serveur DHCP utilisant dhcpd, un serveur DNS résolver, un NS server interne a l'entreprise, ainsi que deux clients DHCP : Direction et Atelier.  
 
 Les utilisateurs indiquent que depuis des modifications, seul un client DHCP peut se connecter à Internet à la fois, et parfois le poste pouvant se connecter change. Avant cela, tous les clients DHCP pouvaient accéder à Internet simultanément.  
 
