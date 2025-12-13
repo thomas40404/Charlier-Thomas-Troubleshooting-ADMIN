@@ -1,106 +1,180 @@
 # Exercices de troubleshooting WEB1
 
-- **Auteur(s)** : Charlier Thomas  
+- **Auteur** : Charlier Thomas  
 - **Date** : 25/11/2025  
 - **Usage des IAGs** : Utilisation limitée à la mise en page et à la correction orthographique.
 
-*GNS3 n’ayant pas accès à Internet, je considérerai qu’une trace Wireshark vers le routeur est un accès Internet réussi.*
+> *GNS3 n’ayant pas accès à Internet, je considère qu’une trace Wireshark vers le routeur équivaut à un accès Internet réussi.*
 
 ---
 
 ## 1. Bug Report
 
-Je travaille sur un réseau complet contenant un serveur DHCP utilisant *dhcpd*, un serveur DNS résolveur, un NS interne à l’entreprise,un server web nommé "www" ainsi que deux clients DHCP : Direction et Atelier.
+Je travaille sur un réseau complet contenant :
+- un serveur **DHCP** utilisant *dhcpd* ;
+- un serveur **DNS résolveur** ;
+- un **NS interne** à l’entreprise ;
+- un **serveur web** nommé `www` ;
+- deux **clients DHCP** : *Direction* et *Atelier*.
 
-La situation est la suivante :  
+### Contexte du problème
 
-L'entreprise Woodytoys vous contacte car son serveur web semble capricieux depuis la dernière maintenance, effectuée par un stagiaire.  Le serveur gère deux sites : le site www.woodytoys.lab et le site blog.woodytoys.lab.  Actuellement, l'adresse blog.woodytoys.lab affiche le site web principal au lieu du blog lui-même! . Pourriez-vous jeter un coup d'œil afin de trouver une solution au problème?
+L’entreprise **Woodytoys** nous contacte car son serveur web semble capricieux depuis la dernière maintenance, effectuée par un stagiaire.
+
+Le serveur héberge deux sites :
+- `www.woodytoys.lab` (site principal)  
+- `blog.woodytoys.lab` (blog)
+
+**Problème constaté** :  
+L’URL `blog.woodytoys.lab` affiche le site principal au lieu du blog.
+
+Objectif : identifier l’origine du problème et proposer une solution.
 
 ---
 
 ## 2. Collecte des symptômes
 
-Pour commencer je vérifie le démarrage de tous les serveurs qui semblent fonctionner correctement, pour ce faire : 
-Je fais ```ip a```sur le pc directeur.
-Resutlat : 
+### 2.1 Vérification du DHCP
+
+Commande exécutée sur le PC *Direction* :
+
+```bash
+ip a
+```
+
+**Résultat** :  
 [Img1](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2012-47-02.png?raw=true)
-Ce qui me dir que le serveur DHCP fonctionne bien 
 
-Ensuite je fais ```ping www.woodytoys.lab```  
-Resutlat : 
+➡️ Le PC reçoit correctement une adresse IP : le serveur DHCP fonctionne.
+
+---
+
+### 2.2 Vérification du DNS
+
+```bash
+ping www.woodytoys.lab
+```
+
+**Résultat** :  
 [Img2](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2012-48-54.png?raw=true)
-Ce qui me dit que les serveurs DNS fonctionnent 
 
-Je fais ```links http://www.woodytosy.lab``` 
-Resutlat : Je me retrouve sur le site www.woodytosy.lab
+➡️ La résolution DNS fonctionne correctement.
+
+---
+
+### 2.3 Vérification du site principal
+
+```bash
+links http://www.woodytoys.lab
+```
+
+**Résultat** :  
 [Img3](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-54-03.png?raw=true)
-Ce qui me dit que le serveur web fonctionne
 
-Je fais ```links http://blog.woodytosy.lab``` 
-Resutlat : Je me retrouve aussi sur le site www.woodytosy.lab (problème que le client m'avait dit)
+➡️ Le site principal est accessible : le serveur web fonctionne.
+
+---
+
+### 2.4 Vérification du blog
+
+```bash
+links http://blog.woodytoys.lab
+```
+
+**Résultat** :  
 [Img4](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-54-03.png?raw=true)
-Ce qui n'est pas attendu
 
-Je vais sur le serveur mail et je fais ```netstat -nltpu````
-Resutlat : les ports 80 et 8000 sont en écoute 
+➡️ Le site principal s’affiche à la place du blog (comportement incorrect).
+
+---
+
+### 2.5 Vérification des ports du serveur web
+
+Sur le serveur web :
+
+```bash
+netstat -nltpu
+```
+
+**Résultat** :  
 [Img5](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-17.png?raw=true)
-Le port 8000 n'est pas censé être en écoute
 
-Je fais donc ```links http://blog.woodytosy.lab:8000``` 
-Resutlat : Je me retrouve sur le site log.woodytosy.lab 
+➡️ Les ports **80** et **8000** sont en écoute.  
+⚠️ Le port **8000** n’est pas censé être utilisé pour un accès client standard.
+
+---
+
+### 2.6 Test du blog via le port 8000
+
+```bash
+links http://blog.woodytoys.lab:8000
+```
+
+**Résultat** :  
 [Img6](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-40.png?raw=true)
-Parfait me voila enfin sur le site voulu, mais en précisant le numero de port, ce qu'un client normal ne ferait pas. 
 
-
-
-### Liste des outils utilisés et leur rôle
-
-1. **Wireshark**  
-   - **Rôle** : Analyser le trafic réseau entre le client et le serveur WEB.  
-   - **Valeur attendue** : 
-
-2. **ping**  
-   - **Rôle** : Tester la connectivité IP.  
-   - **Valeur attendue** : Réponse du serveur cible.
-
-3. **ip a**  
-   - **Rôle** : Vérifier l’adresse IP assignée au PC.  
-   - **Valeur attendue** : IP dans le réseau correct (192.168.0.0/24).
-
-4. **netstat - nltp(u)**  
-   - **Rôle** : Vérifier les ports et connexions actives sur un serveur.  
-   - **Valeur attendue** : Port 80 (http) et potentiellement 443 (https) à l’écoute et acceptant les requêtes du réseau interne.
-
-6. **links**  
-   - **Rôle** : Tester l’accès aux sites web en mode texte directement depuis le serveur ou un client, sans interface graphique.  
-   - **Valeur attendue** :  
-     - `www.woodytoys.lab` → affichage du site principal  
-     - `blog.woodytoys.lab` → affichage du blog (VirtualHost correct)
-
-8. **logs Apache/Nginx**  
-   - **Rôle** : Identifier les erreurs de configuration du serveur web (VirtualHosts, noms de domaine).  
-   - **Valeur attendue** :  
-     - Absence d’erreurs critiques  
-     - Les requêtes vers `blog.woodytoys.lab` sont traitées par le bon VirtualHost
+➡️ Le blog s’affiche correctement **uniquement** en précisant le port 8000.  
+❌ Ce n’est pas acceptable pour un utilisateur final.
 
 ---
 
-## 3. Identification et description du problème
+## 3. Outils utilisés
 
-**Explication** : Je me retrouve sur le bon site en précisant le port 8000 
+| Outil | Rôle | Résultat attendu |
+|------|------|------------------|
+| **Wireshark** | Analyse du trafic réseau | Communication correcte client ↔ serveur |
+| **ping** | Test de connectivité IP | Réponse du serveur |
+| **ip a** | Vérification de l’adresse IP | IP valide dans `192.168.0.0/24` |
+| **netstat** | Vérification des ports ouverts | Port 80 (et 443 si HTTPS) |
+| **links** | Test d’accès HTTP | Affichage du bon site selon le nom |
+| **Logs Apache** | Détection d’erreurs | VirtualHosts correctement associés |
 
-**Hypothèse** : Le serveur web utilise la virtualisation par port mais une requète http utilise normalement le port 80 et non 8000, il faudrait donc utiliser la virtualisation par nom plutot que par port pour pouvoir utiliser le meme port pour tous (le 80)
 ---
 
-## 4. Proposition de solution
-Je vais dans /etc/apache2/sitesavailable/blog-woodytoys-lab.conf 
-Je change 8000 par 80 
+## 4. Identification du problème
+
+**Constat** :  
+Le blog est accessible uniquement via le port **8000**.
+
+**Hypothèse** :  
+Le serveur web utilise une **virtualisation par port**, alors que le HTTP standard utilise le port **80**.  
+La configuration correcte doit utiliser une **virtualisation par nom** (*NameVirtualHost*).
+
+---
+
+## 5. Proposition de solution
+
+Modification du fichier de configuration Apache :
+
+```bash
+/etc/apache2/sites-available/blog-woodytoys-lab.conf
+```
+
+Action effectuée :
+- remplacement du port **8000** par le port **80** dans le VirtualHost.
+
 [Img7](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-40.png?raw=true)
 
+---
 
-**Validation** :  
-Je fais ```links http://blog.woodytosy.lab``` 
-Resutlat : Je me retrouve maintenant sur le site blog.woodytosy.lab sans préciser le port 8000
+## 6. Validation de la solution
+
+```bash
+links http://blog.woodytoys.lab
+```
+
+**Résultat** :  
 [Img8](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2015-09-26.png?raw=true)
 
+✅ Le blog s’affiche correctement **sans préciser de port**.
+
 ---
+
+## 7. Conclusion
+
+Le problème provenait d’une mauvaise configuration des VirtualHosts Apache utilisant une virtualisation par port.
+
+La correction permet :
+- un accès standard sur le port 80 ;
+- une meilleure expérience utilisateur ;
+- une configuration conforme aux bonnes pratiques HTTP.
