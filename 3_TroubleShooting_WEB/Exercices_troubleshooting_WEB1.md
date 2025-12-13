@@ -23,33 +23,33 @@ L'entreprise Woodytoys vous contacte car son serveur web semble capricieux depui
 Pour commencer je vérifie le démarrage de tous les serveurs qui semblent fonctionner correctement, pour ce faire : 
 Je fais ```ip a```sur le pc directeur.
 Resutlat : 
-[Img1]()
+[Img1](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2012-47-02.png?raw=true)
 Ce qui me dir que le serveur DHCP fonctionne bien 
 
 Ensuite je fais ```ping www.woodytoys.lab```  
 Resutlat : 
-[Img2]()
+[Img2](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2012-48-54.png?raw=true)
 Ce qui me dit que les serveurs DNS fonctionnent 
 
 Je fais ```links http://www.woodytosy.lab``` 
 Resutlat : Je me retrouve sur le site www.woodytosy.lab
-[Img3]()
+[Img3](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-54-03.png?raw=true)
 Ce qui me dit que le serveur web fonctionne
 
 Je fais ```links http://blog.woodytosy.lab``` 
 Resutlat : Je me retrouve aussi sur le site www.woodytosy.lab (problème que le client m'avait dit)
-[Img4]()
+[Img4](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-54-03.png?raw=true)
 Ce qui n'est pas attendu
 
 Je vais sur le serveur mail et je fais ```netstat -nltpu````
 Resutlat : les ports 80 et 8000 sont en écoute 
-[Img5]()
+[Img5](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-17.png?raw=true)
 Le port 8000 n'est pas censé être en écoute
 
 Je fais donc ```links http://blog.woodytosy.lab:8000``` 
 Resutlat : Je me retrouve sur le site log.woodytosy.lab 
-[Img6]()
-Parfait me voila enfin sur le site voulu.
+[Img6](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-40.png?raw=true)
+Parfait me voila enfin sur le site voulu, mais en précisant le numero de port, ce qu'un client normal ne ferait pas. 
 
 
 
@@ -95,12 +95,12 @@ Parfait me voila enfin sur le site voulu.
 ## 4. Proposition de solution
 Je vais dans /etc/apache2/sitesavailable/blog-woodytoys-lab.conf 
 Je change 8000 par 80 
-[Img7]()
+[Img7](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-40.png?raw=true)
 
 
 **Validation** :  
 Je fais ```links http://blog.woodytosy.lab``` 
 Resutlat : Je me retrouve maintenant sur le site blog.woodytosy.lab sans préciser le port 8000
-[Img8]()
+[Img8](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2015-09-26.png?raw=true)
 
 ---
