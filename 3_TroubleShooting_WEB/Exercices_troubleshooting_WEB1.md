@@ -43,7 +43,7 @@ ip a
 ```
 
 **Résultat** :  
-[Img1](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2012-47-02.png?raw=true)
+![Img1](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2012-47-02.png?raw=true)
 
 ➡️ Le PC reçoit correctement une adresse IP : le serveur DHCP fonctionne.
 
@@ -56,7 +56,7 @@ ping www.woodytoys.lab
 ```
 
 **Résultat** :  
-[Img2](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2012-48-54.png?raw=true)
+![Img2](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2012-48-54.png?raw=true)
 
 ➡️ La résolution DNS fonctionne correctement.
 
@@ -69,7 +69,7 @@ links http://www.woodytoys.lab
 ```
 
 **Résultat** :  
-[Img3](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-54-03.png?raw=true)
+![Img3](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-54-03.png?raw=true)
 
 ➡️ Le site principal est accessible : le serveur web fonctionne.
 
@@ -82,7 +82,7 @@ links http://blog.woodytoys.lab
 ```
 
 **Résultat** :  
-[Img4](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-54-03.png?raw=true)
+![Img4](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-54-03.png?raw=true)
 
 ➡️ Le site principal s’affiche à la place du blog (comportement incorrect).
 
@@ -97,7 +97,7 @@ netstat -nltpu
 ```
 
 **Résultat** :  
-[Img5](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-17.png?raw=true)
+![Img5](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-17.png?raw=true)
 
 ➡️ Les ports **80** et **8000** sont en écoute.  
 ⚠️ Le port **8000** n’est pas censé être utilisé pour un accès client standard.
@@ -111,7 +111,7 @@ links http://blog.woodytoys.lab:8000
 ```
 
 **Résultat** :  
-[Img6](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-40.png?raw=true)
+![Img6](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-40.png?raw=true)
 
 ➡️ Le blog s’affiche correctement **uniquement** en précisant le port 8000.  
 ❌ Ce n’est pas acceptable pour un utilisateur final.
@@ -153,7 +153,7 @@ Modification du fichier de configuration Apache :
 Action effectuée :
 - remplacement du port **8000** par le port **80** dans le VirtualHost.
 
-[Img7](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-40.png?raw=true)
+![Img7](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2014-53-40.png?raw=true)
 
 ---
 
@@ -164,7 +164,7 @@ links http://blog.woodytoys.lab
 ```
 
 **Résultat** :  
-[Img8](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2015-09-26.png?raw=true)
+![Img8](https://github.com/thomas40404/Charlier-Thomas-Troubleshooting-ADMIN/blob/main/3_TroubleShooting_WEB/Capture%20d%E2%80%99%C3%A9cran%20du%202025-12-13%2015-09-26.png?raw=true)
 
 ✅ Le blog s’affiche correctement **sans préciser de port**.
 
